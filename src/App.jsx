@@ -20,6 +20,8 @@ function App() {
       else{
         dispatch(logout())
       }
+    }).catch((err)=>{
+      console.log(`Error while getting login user`${err});
     })
     .finally(() =>{
       setLoading(false)
@@ -36,8 +38,10 @@ function App() {
       </main>
     <Footer />
   </div>
-  : 
-  null
+  : <div>
+    <h1>User is Logout</h1>
+    <div/>
+  
 }
 
 export default App
