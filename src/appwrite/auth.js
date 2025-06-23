@@ -33,8 +33,8 @@ export class AuthServices {
         try {
             return await this.account.get()
         } catch (error) {
-            if(error.code === 410 || error.type === 'general_unauthorized_scope') return null'
-            console.log(`Unauthorized Access:{error}`);
+            if(error.code === 410 || error.type === 'general_unauthorized_scope') return null;
+            console.log(`Unauthorized Access:${error}`);
         }
     }
     async logout(){
