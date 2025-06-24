@@ -18,8 +18,8 @@ import { AuthLayout } from './components/index.js'
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<App />,
-    children:[
+    element: <App />,
+    children: [
       {
         path: "/",
         element: <Home />,
@@ -30,6 +30,7 @@ const router = createBrowserRouter([
           <AuthLayout authentication={false}>
             <Login />
           </AuthLayout>
+
         ),
       },
       {
@@ -38,39 +39,39 @@ const router = createBrowserRouter([
           <AuthLayout authentication={false}>
             <Signup />
           </AuthLayout>
+
         ),
       },
       {
         path: "/all-posts",
         element: (
-          <AuthLayout authentication>
-            {" "}
-            <AllPosts  />
+          <AuthLayout authentication={true}>
+            <AllPosts />
           </AuthLayout>
         ),
       },
       {
         path: "/add-post",
         element: (
-          <AuthLayout authentication>
-            {" "}
+          <AuthLayout authentication={true}>
             <AddPost />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/edit-post/:slug",
-        element: (
-          <AuthLayout authentication>
-            {" "}
-            <EditPost />            
           </AuthLayout>
 
         ),
       },
       {
+        path: "/edit-post/:slug",
+        element: (
+          <AuthLayout authentication={true}>
+            <EditPost />
+          </AuthLayout>
+        ),
+      },
+      {
         path: "/post/:slug",
-        element: <Post />,
+        element: (
+          <Post />
+        ),
       },
     ],
   },

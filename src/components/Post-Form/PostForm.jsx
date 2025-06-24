@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { Button, Input, Select , RTE} from "../index"
 import appwriteServices from "../../appwrite/config"
 import { useSelector } from 'react-redux'
-import { combineReducers } from '@reduxjs/toolkit'
 
 const PostForm = ({post}) => {
   const navigate = useNavigate();

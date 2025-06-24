@@ -36,20 +36,21 @@ export default function Post() {
         <div className="py-8">
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-                    <img
-                        src={appwriteService.getFilePreview(post.featuredImage)}
+                    {/* <img
+                        src={appwriteService.getFilePreview(post.featuredImage)} //TODO
                         alt={post.title}
                         className="rounded-xl"
-                    />
-
+                    /> */}
+                    <div className="w-full bg-pink-400 min-h-80">
+                    </div>
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
+                                <Button bgColor="bg-green-500" className="mr-3 border-green-200 border-2 font-bold">
                                     Edit
                                 </Button>
                             </Link>
-                            <Button bgColor="bg-red-500" onClick={deletePost}>
+                            <Button bgColor="bg-red-500" className="border-red-200 border-2 font-bold" onClick={deletePost}>
                                 Delete
                             </Button>
                         </div>

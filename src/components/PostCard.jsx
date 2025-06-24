@@ -6,10 +6,11 @@ const PostCard = ({$id, title, featuredImage}) => {
     <Link
       to={`/post/${$id}`}
     >
-      <div className='w-full bg-gray-100 rounded-xl p-4'>
-        <div className='w-full justify-center mb-4'>
-          <img src={Services.getFilePreview(featuredImage)} alt={title}
-            className='rounded-xl' />
+      <div className='w-full bg-gray-100 text-slate-900 rounded-xl p-4'>
+        <div className='h-40 bg-indigo-400 justify-center mb-4'>
+          {/* <img src={Services.getFilePreview(featuredImage)} alt={title}
+            className='rounded-xl' /> */}
+
         </div>
         <h2
           className='text-xl font-bold'
