@@ -1,12 +1,13 @@
 import React from 'react'
-
-const logo = ({width = '50px'}) => {
+const logo = ({width = '70px'}) => {
   return (
-    <div style={{
-      width:{width},
-    }} 
-    className='bg-pink-400 text-white text-center rounded-tr rounded-bl '>
-      logo
+    <div className='flex items-center justify-center'>
+      <img
+        src="../../public/logo.svg"
+        alt="Logo"
+        className='w-full'
+        style={{ width: width }}
+      />
     </div>
   )
 }

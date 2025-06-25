@@ -98,11 +98,14 @@ const PostForm = ({post}) => {
           />
           {post && (
             <div className="w-full mb-4">
-              <img
+              {/* <img
                 src={appwriteService.getFilePreview(post.featuredImage)}
                 alt={post.title}
                 className="rounded-lg"
-              />
+              /> */}
+              <div className="w-full bg-pink-400 min-h-52 text-center flex items-center justify-center p-6">
+                Featured Image is not displayed here, but it is stored in the database.
+              </div>
             </div>
           )}
           <Select

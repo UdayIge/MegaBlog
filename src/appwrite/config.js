@@ -127,10 +127,13 @@ export class Service {
     }
 
     getFilePreview(fileId) {
-        return this.bucket.getFilePreview(
+        const res =  this.bucket.getFileView(
             conf.appwriteBucketId,
             fileId,
-        )
+        );
+        console.log(res)
+        return res;
+        
     }
 }
 
