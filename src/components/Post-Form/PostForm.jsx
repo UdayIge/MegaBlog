@@ -74,13 +74,13 @@ const PostForm = ({post}) => {
           <Input
             label="Title :"
             placeholder="Title"
-            className="mb-4"
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
             {...register("title", { required: true })}
           />
           <Input
             label="Slug :"
             placeholder="Slug"
-            className="mb-4"
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
             {...register("slug", { required: true })}
             onInput={(e) => {
               setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
@@ -92,26 +92,26 @@ const PostForm = ({post}) => {
           <Input
             label="Featured Image :"
             type="file"
-            className="mb-4"
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
             accept="image/png, image/jpg, image/jpeg, image/gif"
             {...register("image", { required: !post })}
           />
           {post && (
             <div className="w-full mb-4">
-              <img
-                src={appwriteService.getFilePreview(post.featuredImage)}
-                alt={post.title}
-                className="rounded-lg"
-              />
+              <div className="w-full bg-blue-400 fon min-h-52 text-center flex items-center justify-center p-6 rounded-lg">
+                Featured Image is not displayed here, but it is stored in the database. You can update it by uploading a new image.
+              </div>
             </div>
           )}
           <Select
             options={["active", "inactive"]}
             label="Status"
-            className="mb-4"
+            className="mb-4 "
             {...register("status", { required: true })}
           />
-          <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+          <Button type="submit" bgColor={post ? "bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700" : undefined} 
+          className="w-full text-base"
+          >
             {post ? "Update" : "Submit"}
           </Button>
         </div>

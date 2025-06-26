@@ -4,9 +4,11 @@ import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
-
+import "../index.css"
+import { Loader } from "../components/Loader";
 export default function Post() {
     const [post, setPost] = useState(null);
+    const [ imageLoading, setImageLoading ] = useState(true);
     const { slug } = useParams();
     const navigate = useNavigate();
 
@@ -14,6 +16,9 @@ export default function Post() {
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 
+    const handleOnImageLoad = () => {
+        setImageLoading(false);
+    }
     useEffect(() => {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
@@ -36,21 +41,24 @@ export default function Post() {
         <div className="py-8">
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-                    {/* <img
-                        src={appwriteService.getFilePreview(post.featuredImage)} //TODO
+                    {imageLoading && (
+                        <Loader />
+                    )}  
+                    {/* TODO : HANDLE THE IMAGE PROPERLY */}
+                    {<img
+                        src={appwriteService.getFilePreview(post.featuredImage)}
                         alt={post.title}
-                        className="rounded-xl"
-                    /> */}
-                    <div className="w-full bg-pink-400 min-h-80">
-                    </div>
+                        onLoad={handleOnImageLoad}
+                        className={`rounded-xl max-h-80 object-cover object-center w-full md:w-1/2 lg:w-1/3 transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                    />}
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3 border-green-200 border-2 font-bold">
+                                <Button bgColor="bg-green-500" className="mr-3 border-green-500 border-2 font-bold dark:bg-green-600 dark:hover:bg-green-700">
                                     Edit
                                 </Button>
                             </Link>
-                            <Button bgColor="bg-red-500" className="border-red-200 border-2 font-bold" onClick={deletePost}>
+                            <Button bgColor="bg-red-500" className="border-red-500 border-2 font-bold dark:bg-red-600 dark:hover:bg-red-700" onClick={deletePost}>
                                 Delete
                             </Button>
                         </div>

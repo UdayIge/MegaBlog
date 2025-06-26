@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config";
 import { Container, PostCard } from '../components'
 import { Link } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import { Loader } from '../components/Loader';
 function Home() {
-    const [posts, setPosts] = useState([])
-
+    const [posts, setPosts] = useState([]);
+    const [ loading, setLoading ] = useState(true);
+    const authStatus = useSelector((state) => state.auth.status);
     useEffect(() => {
         appwriteService.getPosts().then((posts) => {
             if (posts) {
                 setPosts(posts.documents)
+                setLoading(false);
             }
         })
     }, [])
 
-    if (posts.length === 0) {
+    if (!authStatus) {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -29,12 +32,22 @@ function Home() {
             </div>
         )
     }
-    return (
+    return ( loading ? (
+        <div className="w-full py-8 mt-6 text-center">
+            <Container>
+                <div className="flex flex-wrap">
+                    <div className="relative p-2 w-full min-h-96">
+                        <Loader />
+                    </div>
+                </div>
+            </Container>
+        </div>
+    ) :    
         <div className='w-full py-8'>
             <Container>
-                <div className='flex flex-wrap'>
+                <div className='flex flex-wrap sm:flex-row flex-col'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-1/4'>
+                        <div key={post.$id} className='p-2 w-full sm:w-1/2 md:w-1/4'>
                             <PostCard {...post} />
                         </div>
                     ))}
