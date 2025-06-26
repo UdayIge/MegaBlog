@@ -1,10 +1,71 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-// import { Container, Logo } from '../index';
 import LogoutButton from './LogoutButton'
 import { useState } from 'react';
 import { Button, Logo } from '..';
+import { useEffect } from 'react';
+
+const DarkModeToggle = () => {
+  const [isDark, setIsDark] = useState(() => {
+    const stored = localStorage.getItem("theme");
+    if (stored) return stored === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
+
+  return (
+    <button
+      type="button"
+      onClick={() => setIsDark(!isDark)}
+      className="border border-gray-200 dark:border-gray-200/20 inline-flex items-center w-8 h-8 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    >
+      <svg
+        className={`w-4 h-4 ${isDark ? "hidden" : "block"}`}
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+      </svg>
+      <svg
+        className={`w-4 h-4 ${isDark ? "block" : "hidden"}`}
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 
+             8a4 4 0 11-8 0 4 4 0 018 0zm-.464 
+             4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 
+             1 0 00-1.414 1.414zm2.12-10.607a1 1 0 
+             010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 
+             1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 
+             0 100 2h1zm-7 4a1 1 0 011 
+             1v1a1 1 0 11-2 0v-1a1 1 0 
+             011-1zM5.05 6.464A1 1 0 
+             106.465 5.05l-.708-.707a1 1 0 
+             00-1.414 1.414l.707.707zm1.414 
+             8.486l-.707.707a1 1 0 
+             01-1.414-1.414l.707-.707a1 1 0 
+             011.414 1.414zM4 11a1 1 0 100-2H3a1 1 
+             0 000 2h1z"
+        />
+      </svg>
+    </button>
+  );
+};
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,26 +91,29 @@ const Header = () => {
     },
   ]
   return (
-    <header className='w-full shadow bg-gray-500 fixed top-0 z-10'>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <header className='w-full shadow bg-gray-500 fixed top-0 z-50'>
+      <nav className="bg-white text-slate-900 border-gray-200 dark:bg-gray-900">
         <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Logo width='35px' />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white md:dark:hover:text-blue-700">MegaBlog</span>
           </Link>
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            data-collapse-toggle="navbar-default"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
+          <div className='flex items-center space-x-3 rtl:space-x-reverse md:hidden'>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              data-collapse-toggle="navbar-default"
+              type="button"
+              className="inline-flex items-center w-8 h-8 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              aria-controls="navbar-default"
+              aria-expanded="false"
             >
-            <span className="sr-only">Open main menu</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
-          </button>
+              <span className="sr-only">Open main menu</span>
+              <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+              </svg>
+            </button>
+            <DarkModeToggle />
+          </div>
           <div className={`${menuOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:items-center md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {navItems.map((item) =>
@@ -66,95 +130,28 @@ const Header = () => {
                   </li>
                 ) : null)}
               {authStatus && (
-                <li>
-                  <LogoutButton className='block py-2 px-3 text-gray-900 rounded-sm hover:bg-red-600 md:hover:bg-transparent md:border-0 md:bg-blue-700 md:hover:text-blue-700 md:px-4 md:rounded-2xl md:py-1 dark:text-white dark:hover:bg-red-700 dark:hover:text-white ' />
-                </li>
+                <>
+                  <LogoutButton className='inline text-slate-900 bg-zinc-200 w-fit rounded-sm md:border-0 md:bg-blue-700 md:px-4 md:rounded-2xl md:py-1 md:text-white md:hover:bg-blue-800 '/>
+                </>
               )}
               {!authStatus && (
                 <>
-                  <Button className='text-white bg-blue-700 rounded-2xl md:hover:bg-transparent md:border-0 md:bg-blue-700 md:hover:text-blue-700 md:px-4 md:rounded-2xl md:py-1 dark:text-white dark:hover:bg-blue-500 dark:hover:text-white'>
+                  <Button className='md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0'>
                     <Link to="/login">Login</Link>
                   </Button>
-                  <Button bgColor='bg-blue-700' className='text-white rounded-2xl md:hover:bg-transparent md:border-0 md:bg-blue-700 md:hover:text-blue-700 md:px-4 md:rounded-2xl md:py-1 dark:text-white dark:hover:bg-blue-500 dark:hover:text-white'>
+                  <Button className='md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0'>
                     <Link to="/signup">Sign Up</Link>
                   </Button>
                 </>)}
+              <div className='hidden md:block'>
+                <DarkModeToggle />
+              </div>
             </ul>
           </div>
         </div>
-
-
-        {/* <div className='mr-4'>
-            <Link to={'/'}>
-              <Logo width='70px' />
-            </Link>
-          </div>
-          <ul className='flex ml-auto'>
-            {navItems.map((item) =>
-              item.active ? (
-                <li key={item.name}>
-                  <button
-                    onClick={() => navigate(item.slug)}
-                    className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full mr-2 text-white font-semibold'
-                  >
-                    {item.name}
-                  </button>
-                </li>
-              ) : null)}
-
-            {authStatus && (
-              <li>
-                <LogoutButton />
-              </li>
-            )}
-          </ul> */}
       </nav>
-
     </header>
   )
 }
-
-
-export const Header2 = () => {
-  return (
-
-
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="" class="h-8" alt=" Logo" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-        </a>
-        <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="true">
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-          </svg>
-        </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
-            </li>
-            <li>
-              <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-            </li>
-            <li>
-              <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-            </li>
-            <li>
-              <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-            </li>
-            <li>
-              <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-  )
-}
-
 
 export default Header;

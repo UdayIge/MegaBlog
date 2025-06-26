@@ -29,7 +29,7 @@ function App() {
 
 
   return !loading ?
-    <div className='min-h-screen w-full flex items-center flex-col text-white bg-slate-700'>
+    <div className='min-h-screen w-full flex items-center flex-col transition-all duration-200 text-slate-900 dark:text-white dark:bg-slate-700'>
       <div className='w-full block mt-[68px]'>
         <Header />
         <main>
