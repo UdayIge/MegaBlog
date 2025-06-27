@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Loader } from '../components/Loader';
 function Home() {
     const [posts, setPosts] = useState([]);
-    const [ loading, setLoading ] = useState(true);
+    const [loading, setLoading] = useState(true);
     const authStatus = useSelector((state) => state.auth.status);
     useEffect(() => {
         appwriteService.getPosts().then((posts) => {
@@ -21,9 +21,9 @@ function Home() {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
-                    <div className="flex flex-wrap">
-                        <div className="p-2 w-full">
-                            <h1 className="text-2xl font-bold hover:text-gray-500">
+                    <div className="flex flex-wrap ">
+                        <div className="p-2 w-full min-h-96 flex items-center justify-center">
+                            <h1 className="text-2xl font-bold hover:text-blue-700 dark:hover:text-blue-600">
                                 <Link to={"/login"}>Login to read posts</Link>
                             </h1>
                         </div>
@@ -32,7 +32,7 @@ function Home() {
             </div>
         )
     }
-    return ( loading ? (
+    return (loading ? (
         <div className="w-full py-8 mt-6 text-center">
             <Container>
                 <div className="flex flex-wrap">
@@ -42,19 +42,33 @@ function Home() {
                 </div>
             </Container>
         </div>
-    ) :    
+    ) :
         <div className='w-full py-8'>
             <Container>
-                <div className='flex flex-wrap sm:flex-row flex-col'>
-                    {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-full sm:w-1/2 md:w-1/4'>
-                            <PostCard {...post} />
+                {posts.length === 0 ?
+                    (
+                        <div className="flex flex-wrap">
+                            <div className="p-2 w-full min-h-96 flex items-center justify-center">
+                                <h1 className="text-2xl font-bold">
+                                    No posts available; please check back later.
+                                </h1>
+                            </div>
                         </div>
-                    ))}
-                </div>
+                    )
+                    :
+                    (
+                        <div className='flex flex-wrap sm:flex-row flex-col'>
+                            {posts.map((post) => (
+                                <div key={post.$id} className='p-2 w-full sm:w-1/2 md:w-1/4'>
+                                    <PostCard {...post} />
+                                </div>
+                            ))}
+                        </div>
+                    )
+                }
             </Container>
         </div>
     )
 }
 
-export default Home
+export default Home;

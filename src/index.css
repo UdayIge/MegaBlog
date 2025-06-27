@@ -24,5 +24,10 @@
     background: #555;
   }
 
-
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }    
 }
