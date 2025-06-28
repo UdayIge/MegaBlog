@@ -7,7 +7,7 @@ function Footer() {
   };
 
   return (
-    <section className="w-full relative overflow-hidden py-10 border-t-2 border-t-black bg-white  dark:bg-gray-900">
+    <section className="w-full relative overflow-hidden py-10 border-t border-t-black/20 bg-gray-50 dark:border-t-0 dark:bg-gray-900">
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         <div className="-m-6 flex flex-wrap">
           <div className="w-full p-6 md:w-1/2 lg:w-5/12">
@@ -28,17 +28,17 @@ function Footer() {
                 Company
               </h3>
               <ul>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Features
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Pricing
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Affiliate Program
                   </Link>
@@ -57,17 +57,17 @@ function Footer() {
                 Support
               </h3>
               <ul>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Account
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Help
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Contact Us
                   </Link>
@@ -86,12 +86,12 @@ function Footer() {
                 Legals
               </h3>
               <ul>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Terms &amp; Conditions
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Privacy Policy
                   </Link>

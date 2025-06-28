@@ -11,4 +11,5 @@ import PostCard from "./PostCard"
 import AuthLayout from "./AuthLayout"
 import PostForm from "./Post-Form/PostForm"
 import Select from './Select'
-export { Header, Footer, Container, Input, Button, Logo, Login, Signup, RTE, PostCard, AuthLayout, PostForm, Select };
+import DarkToogleBtn from './DarkToogleBtn'
+export { Header, Footer, Container, Input, Button, Logo, Login, Signup, RTE, PostCard, AuthLayout, PostForm, Select, DarkToogleBtn };
