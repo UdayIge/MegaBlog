@@ -1,4 +1,4 @@
-import React, { use, useCallback, useEffect } from 'react'
+import {  useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Button, Input, Select , RTE} from "../index"
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 const PostForm = ({post}) => {
   const navigate = useNavigate();
   const userData = useSelector(state => state.auth.userData);
+  const [errors, setErrors] = useState('')
   const {register, handleSubmit, watch, getValues, setValue, control} = useForm({
     defaultValues: {
       title: post?.title || "",
@@ -18,36 +19,43 @@ const PostForm = ({post}) => {
   });
 
   const submit = async (data) =>{
-    if(post){
-      const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
-      if(file){
-        appwriteServices.deleteFile(post.featuredImage);
-      }
-      const dbPost = appwriteServices.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      })
-
-      if(dbPost){
-        navigate(`/post/${dbPost.$id}`);
-      }
-    }
-    else{
-      const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
-
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId; 
-        const dbPost = appwriteServices.createPost({
+    setErrors("")
+    try{
+      if (post) {
+        const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
+        if (file) {
+          appwriteServices.deleteFile(post.featuredImage);
+        }
+        const dbPost = appwriteServices.updatePost(post.$id, {
           ...data,
-          userId: userData.$id,
+          featuredImage: file ? file.$id : undefined,
         })
-        
+
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
         }
       }
+      else {
+        const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
+
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
+          const dbPost = appwriteServices.createPost({
+            ...data,
+            userId: userData.$id,
+          })
+
+          if (dbPost) {
+            navigate(`/post/${dbPost.$id}`);
+          }
+        }
+      }
     }
+    catch (error) {
+      setErrors(error.message || "An error occurred while submitting the form.");
+    }
+    
   };
 
   const slugTransform = useCallback((value) => {
@@ -70,7 +78,8 @@ const PostForm = ({post}) => {
   return (
     <>
       <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-        <div className="w-2/3 px-2">
+        {errors && <div className='text-red-500'>{errors}</div>}
+        <div className="w-full md:w-2/3 px-2">
           <Input
             label="Title :"
             placeholder="Title"
@@ -88,7 +97,7 @@ const PostForm = ({post}) => {
           />
           <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
         </div>
-        <div className="w-1/3 px-2">
+        <div className="w-full md:w-1/3 px-2">
           <Input
             label="Featured Image :"
             type="file"
@@ -98,7 +107,7 @@ const PostForm = ({post}) => {
           />
           {post && (
             <div className="w-full mb-4">
-              <div className="w-full bg-blue-400 fon min-h-52 text-center flex items-center justify-center p-6 rounded-lg">
+              <div className="w-full bg-blue-400 font-mono min-h-52 text-center flex items-center justify-center p-6 rounded-lg">
                 Featured Image is not displayed here, but it is stored in the database. You can update it by uploading a new image.
               </div>
             </div>
