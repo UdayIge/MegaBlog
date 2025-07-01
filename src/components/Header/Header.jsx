@@ -33,7 +33,7 @@ const Header = () => {
         <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Logo width='35px' />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white md:dark:hover:text-blue-700">MegaBlog</span>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white md:dark:hover:text-blue-600">MegaBlog</span>
           </Link>
           <div className='flex items-center space-x-3 rtl:space-x-reverse md:hidden'>
             <button

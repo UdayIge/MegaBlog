@@ -3,7 +3,7 @@ import Logo from '../Logo'
 
 function Footer() {
   const linkProps = {
-    className: "text-base text-gray-900 hover:text-blue-700 dark:text-gray-200"
+    className: "text-base text-gray-900 hover:underline hover:text-blue-700 dark:text-gray-200 dark:hover:text-blue-500"
   };
 
   return (
