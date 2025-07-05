@@ -37,7 +37,8 @@ const PostForm = ({post}) => {
       }
       else {
         const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
-
+        debugger;
+        console.log(file);    
         if (file) {
           const fileId = file.$id;
           data.featuredImage = fileId;

@@ -18,11 +18,11 @@ function Login() {
             const session = await authServices.login(data)
             if (session) {
                 const userData = await authServices.getCurrentUser()
-                if (userData) dispatch(authLogin(userData));
+                if (userData) dispatch(authLogin({userData}));
                 navigate("/")
             }
         } catch (error) {
-            setError(error.message)
+            setError(error.message || "An error occurred while logging in.")
         }
     }
 
@@ -46,7 +46,8 @@ function Login() {
                         Sign Up
                     </Link>
                 </p>
-                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+                {error && <p className="text-red-600 mb-2 text-center">{error}</p>}
+
                 <form onSubmit={handleSubmit(login)} className='mt-8'>
                     <div className='space-y-5'>
                         <Input
