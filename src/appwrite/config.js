@@ -131,7 +131,6 @@ export class Service {
             conf.appwriteBucketId,
             fileId,
         );
-        console.log(res)
         return res;
         
     }
