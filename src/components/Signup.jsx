@@ -18,11 +18,11 @@ function Signup() {
             const userData = await authService.createAccount(data)
             if (userData) {
                 const userData = await authService.getCurrentUser()
-                if (userData) dispatch(login(userData));
+                if (userData) dispatch(login({userData}));
                 navigate("/");
             }
         } catch (error) {
-            setError(error.message);
+            setError(error.message || "An error occurred while creating account.");
         }
     }
 
@@ -44,7 +44,7 @@ function Signup() {
                         Sign In
                     </Link>
                 </p>
-                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+                {error && <p className="text-red-600 mb-2 text-center">{error}</p>}
 
                 <form onSubmit={handleSubmit(create)}>
                     <div className='space-y-5'>
