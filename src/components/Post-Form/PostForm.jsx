@@ -42,7 +42,7 @@ const PostForm = ({post}) => {
         if (file) {
           const fileId = file.$id;
           data.featuredImage = fileId;
-          const dbPost = appwriteServices.createPost({
+          const dbPost = await appwriteServices.createPost({
             ...data,
             userId: userData.$id,
           })
@@ -60,11 +60,20 @@ const PostForm = ({post}) => {
   };
 
   const slugTransform = useCallback((value) => {
-    if(value){
-      return value.trim().toLowerCase().replace(/[^a-zA-Z\d\s]+/g,"-").replace(/\s/g,"-");
+    if (value) {
+      // Remove invalid chars, allow a-z, A-Z, 0-9, period, hyphen, underscore, and spaces
+      let slug = value
+        .trim()
+        .replace(/[^a-zA-Z0-9.\-_ ]+/g, "") // only valid chars and spaces
+        .replace(/\s+/g, "-"); // replace spaces with hyphens
+
+      // Remove leading special chars (period, hyphen, underscore)
+      slug = slug.replace(/^[.\-_]+/, "");
+
+      return slug.slice(0, 36);
     }
     return "";
-  },[])
+  }, []);
 
   useEffect(()=>{
     const subscription = watch((value, {name}) =>{
