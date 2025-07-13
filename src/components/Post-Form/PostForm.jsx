@@ -111,7 +111,7 @@ const PostForm = ({post}) => {
           <Input
             label="Featured Image :"
             type="file"
-            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500 p-0 focus:z-10 disabled:opacity-50 disabled:pointer-events-non  file:dark:font-medium file:border-0 file:border-r file:border-slate-100/40 file:dark:border-slate-300 file:me-4 file:py-2 file:px-4 dark:file:bg-slate-600 file:dark:text-white"
             accept="image/png, image/jpg, image/jpeg, image/gif"
             {...register("image", { required: !post })}
           />
@@ -125,7 +125,7 @@ const PostForm = ({post}) => {
           <Select
             options={["active", "inactive"]}
             label="Status"
-            className="mb-4 "
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
             {...register("status", { required: true })}
           />
           <Button type="submit" bgColor={post ? "bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700" : undefined} 
