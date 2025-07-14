@@ -68,15 +68,15 @@ const Header = () => {
                 ) : null)}
               {authStatus && (
                 <>
-                  <LogoutButton className='inline w-fit md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0' />
+                  <LogoutButton className='inline w-fit md:hover:bg-blue-500 rounded-3xl mt-2 md:border-0 md:m-0' />
                 </>
               )}
               {!authStatus && (
                 <>
-                  <Button className='inline w-fit  md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0'>
+                  <Button className='inline w-fit  md:hover:bg-blue-500 rounded-3xl mt-2 md:border-0 md:m-0'>
                     <Link to="/login">Login</Link>
                   </Button>
-                  <Button className='inline w-fit md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0'>
+                  <Button className='inline w-fit md:hover:bg-blue-500 rounded-3xl mt-2 md:border-0 md:m-0'>
                     <Link to="/signup">Sign Up</Link>
                   </Button>
                 </>)}

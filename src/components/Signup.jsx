@@ -28,14 +28,14 @@ function Signup() {
 
     return (
         <div className="text-slate-900 flex items-center justify-center">
-            <div className={`mx-auto shadow-md w-full max-w-lg bg-gray-100 rounded-xl p-10 transition-all duration-200 border-black/10 dark:bg-slate-900 dark:text-white dark:border-gray-600`}>
+            <div className={`mx-auto shadow-md w-full max-w-lg bg-gray-100 rounded-xl px-6 py-10 sm:p-10 transition-all duration-200 border-black/10 dark:bg-slate-900 dark:text-white dark:border-gray-600`}>
                 <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                         <Logo />
                     </span>
                 </div>
                 <h2 className="text-center text-2xl font-semibold font-sans leading-tight">Sign up to create account</h2>
-                <p className="mt-2 text-center text-base text-gray-500">
+                <p className="m-2 text-center text-base text-gray-500">
                     Already have an account?&nbsp;
                     <Link
                         to="/login"
