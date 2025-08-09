@@ -29,7 +29,7 @@
 
 A feature-rich, open-source blogging platform built with React, Appwrite, and Redux Toolkit. Write, edit, and publish content with ease using an intuitive UI and powerful backend.
 
-## ✨ Feature
+## Features
 
 * 🌗 Light/Dark mode toggle support
 * 🔐 Authentication (Signup/Login/Logout)
