@@ -3,21 +3,21 @@ import Logo from '../Logo'
 
 function Footer() {
   const linkProps = {
-    className: "text-base text-gray-900 hover:text-blue-700 dark:text-gray-200"
+    className: "text-base text-gray-900 hover:underline hover:text-blue-700 dark:text-gray-200 dark:hover:text-blue-500"
   };
 
   return (
-    <section className="w-full relative overflow-hidden py-10 border-t-2 border-t-black bg-white  dark:bg-gray-900">
+    <section className="w-full relative overflow-hidden py-10 pb-0 border-t border-t-black/20 bg-gray-50 dark:border-t-0 dark:bg-gray-900">
       <div className="relative z-10 mx-auto max-w-7xl px-4">
-        <div className="-m-6 flex flex-wrap">
+        <div className="m-6 flex flex-wrap">
           <div className="w-full p-6 md:w-1/2 lg:w-5/12">
             <div className="flex h-full flex-col justify-between">
               <div className="mb-4 inline-flex items-center">
                 <Logo width='90px' /> 
               </div>
               <div>
-                <p className="text-sm text-gray-700 dark:text-gray-200">
-                  &copy; Copyright 2023. All Rights Reserved by DevUI.
+                <p className="text-sm text-gray-700 dark:text-gray-200 hidden lg:block">
+                  &copy; Copyright 2024. All Rights Reserved by MegaBlog.
                 </p>
               </div>
             </div>
@@ -28,17 +28,17 @@ function Footer() {
                 Company
               </h3>
               <ul>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Features
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Pricing
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Affiliate Program
                   </Link>
@@ -57,17 +57,17 @@ function Footer() {
                 Support
               </h3>
               <ul>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Account
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Help
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Contact Us
                   </Link>
@@ -86,12 +86,12 @@ function Footer() {
                 Legals
               </h3>
               <ul>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Terms &amp; Conditions
                   </Link>
                 </li>
-                <li className="mb-2">
+                <li className="mb-4">
                   <Link {...linkProps} to="/">
                     Privacy Policy
                   </Link>
@@ -105,6 +105,11 @@ function Footer() {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <p className="text-center text-sm p-4 text-gray-700 dark:text-gray-200 border-t border-black/20 dark:border-white/20 lg:hidden">
+          &copy; Copyright 2024. All Rights Reserved by MegaBlog.
+        </p>
       </div>
     </section>
   )

@@ -1,4 +1,4 @@
-import React, { use, useCallback, useEffect } from 'react'
+import {  useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Button, Input, Select , RTE} from "../index"
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 const PostForm = ({post}) => {
   const navigate = useNavigate();
   const userData = useSelector(state => state.auth.userData);
+  const [errors, setErrors] = useState('')
   const {register, handleSubmit, watch, getValues, setValue, control} = useForm({
     defaultValues: {
       title: post?.title || "",
@@ -18,44 +19,61 @@ const PostForm = ({post}) => {
   });
 
   const submit = async (data) =>{
-    if(post){
-      const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
-      if(file){
-        appwriteServices.deleteFile(post.featuredImage);
-      }
-      const dbPost = appwriteServices.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      })
-
-      if(dbPost){
-        navigate(`/post/${dbPost.$id}`);
-      }
-    }
-    else{
-      const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
-
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId; 
-        const dbPost = appwriteServices.createPost({
+    setErrors("")
+    try{
+      if (post) {
+        const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
+        if (file) {
+          appwriteServices.deleteFile(post.featuredImage);
+        }
+        const dbPost = appwriteServices.updatePost(post.$id, {
           ...data,
-          userId: userData.$id,
+          featuredImage: file ? file.$id : undefined,
         })
-        
+
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
         }
       }
+      else {
+        const file = data.image[0] ? await appwriteServices.uploadFile(data.image[0]) : null;
+        debugger;
+        console.log(file);    
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
+          const dbPost = await appwriteServices.createPost({
+            ...data,
+            userId: userData.$id,
+          })
+
+          if (dbPost) {
+            navigate(`/post/${dbPost.$id}`);
+          }
+        }
+      }
     }
+    catch (error) {
+      setErrors(error.message || "An error occurred while submitting the form.");
+    }
+    
   };
 
   const slugTransform = useCallback((value) => {
-    if(value){
-      return value.trim().toLowerCase().replace(/[^a-zA-Z\d\s]+/g,"-").replace(/\s/g,"-");
+    if (value) {
+      // Remove invalid chars, allow a-z, A-Z, 0-9, period, hyphen, underscore, and spaces
+      let slug = value
+        .trim()
+        .replace(/[^a-zA-Z0-9.\-_ ]+/g, "") // only valid chars and spaces
+        .replace(/\s+/g, "-"); // replace spaces with hyphens
+
+      // Remove leading special chars (period, hyphen, underscore)
+      slug = slug.replace(/^[.\-_]+/, "");
+
+      return slug.slice(0, 36);
     }
     return "";
-  },[])
+  }, []);
 
   useEffect(()=>{
     const subscription = watch((value, {name}) =>{
@@ -70,7 +88,8 @@ const PostForm = ({post}) => {
   return (
     <>
       <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-        <div className="w-2/3 px-2">
+        {errors && <div className='text-red-500'>{errors}</div>}
+        <div className="w-full md:w-2/3 px-2">
           <Input
             label="Title :"
             placeholder="Title"
@@ -88,17 +107,17 @@ const PostForm = ({post}) => {
           />
           <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
         </div>
-        <div className="w-1/3 px-2">
+        <div className="w-full md:w-1/3 px-2">
           <Input
             label="Featured Image :"
             type="file"
-            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500 px-0 py-0 focus:z-10 disabled:opacity-50 disabled:pointer-events-non  file:dark:font-medium file:border-0 file:border-r file:border-slate-100/40 file:dark:border-slate-300 file:me-4 file:py-2.5 file:px-4 dark:file:bg-slate-600 file:dark:text-white"
             accept="image/png, image/jpg, image/jpeg, image/gif"
             {...register("image", { required: !post })}
           />
           {post && (
             <div className="w-full mb-4">
-              <div className="w-full bg-blue-400 fon min-h-52 text-center flex items-center justify-center p-6 rounded-lg">
+              <div className="w-full bg-blue-400 font-mono min-h-52 text-center flex items-center justify-center p-6 rounded-lg">
                 Featured Image is not displayed here, but it is stored in the database. You can update it by uploading a new image.
               </div>
             </div>
@@ -106,7 +125,7 @@ const PostForm = ({post}) => {
           <Select
             options={["active", "inactive"]}
             label="Status"
-            className="mb-4 "
+            className="mb-4 dark:bg-slate-700 dark:border-slate-500"
             {...register("status", { required: true })}
           />
           <Button type="submit" bgColor={post ? "bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700" : undefined} 

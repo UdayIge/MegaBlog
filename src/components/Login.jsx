@@ -18,11 +18,11 @@ function Login() {
             const session = await authServices.login(data)
             if (session) {
                 const userData = await authServices.getCurrentUser()
-                if (userData) dispatch(authLogin(userData));
+                if (userData) dispatch(authLogin({userData}));
                 navigate("/")
             }
         } catch (error) {
-            setError(error.message)
+            setError(error.message || "An error occurred while logging in.")
         }
     }
 
@@ -30,7 +30,7 @@ function Login() {
         <div
             className='text-slate-900 flex items-center justify-center w-full'
         >
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 transition-all duration-200 dark:bg-slate-900 dark:text-white dark:border-gray-600`}>
+            <div className={`mx-auto w-full max-w-lg bg-gray-50 rounded-xl px-6 py-10 sm:p-10 border border-black/10 transition-all duration-200 dark:bg-slate-900 dark:text-white dark:border-gray-600`}>
                 <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                         <Logo />
@@ -46,7 +46,8 @@ function Login() {
                         Sign Up
                     </Link>
                 </p>
-                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+                {error && <p className="text-red-600 mb-2 text-center">{error}</p>}
+
                 <form onSubmit={handleSubmit(login)} className='mt-8'>
                     <div className='space-y-5'>
                         <Input

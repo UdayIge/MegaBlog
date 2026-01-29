@@ -24,8 +24,18 @@ const PostCard = ({$id, title, featuredImage}) => {
       </Link>
       <div className="p-4">
         <Link to={`/post/${$id}`}>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {title.length > 50 ? `${title.slice(0, 50)}...` : title}
+          <h5
+            className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-ellipsis line-clamp-2 min-h-[2.8em]"
+            // style={{
+            //   display: '-webkit-box',
+            //   WebkitLineClamp: 2,
+            //   WebkitBoxOrient: 'vertical',
+            //   overflow: 'hidden',
+            //   textOverflow: 'ellipsis',
+            //   minHeight: '2.8em', // ensures space for 2 lines
+            // }}
+          >
+            {title}
           </h5>
         </Link>
         <Link

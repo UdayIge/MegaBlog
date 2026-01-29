@@ -2,70 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LogoutButton from './LogoutButton'
 import { useState } from 'react';
-import { Button, Logo } from '..';
-import { useEffect } from 'react';
-
-const DarkModeToggle = () => {
-  const [isDark, setIsDark] = useState(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored) return stored === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (isDark) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
-
-  return (
-    <button
-      type="button"
-      onClick={() => setIsDark(!isDark)}
-      className="border border-gray-200 dark:border-gray-200/20 inline-flex items-center w-8 h-8 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-    >
-      <svg
-        className={`w-4 h-4 ${isDark ? "hidden" : "block"}`}
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-      </svg>
-      <svg
-        className={`w-4 h-4 ${isDark ? "block" : "hidden"}`}
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 
-             8a4 4 0 11-8 0 4 4 0 018 0zm-.464 
-             4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 
-             1 0 00-1.414 1.414zm2.12-10.607a1 1 0 
-             010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 
-             1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 
-             0 100 2h1zm-7 4a1 1 0 011 
-             1v1a1 1 0 11-2 0v-1a1 1 0 
-             011-1zM5.05 6.464A1 1 0 
-             106.465 5.05l-.708-.707a1 1 0 
-             00-1.414 1.414l.707.707zm1.414 
-             8.486l-.707.707a1 1 0 
-             01-1.414-1.414l.707-.707a1 1 0 
-             011.414 1.414zM4 11a1 1 0 100-2H3a1 1 
-             0 000 2h1z"
-        />
-      </svg>
-    </button>
-  );
-};
+import { Button, Logo, DarkToogleBtn  } from '..';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -92,11 +29,11 @@ const Header = () => {
   ]
   return (
     <header className='w-full shadow bg-gray-500 fixed top-0 z-50'>
-      <nav className="bg-white text-slate-900 border-gray-200 dark:bg-gray-900">
+      <nav className="bg-gray-50 text-slate-900 border-gray-200 dark:bg-gray-900">
         <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Logo width='35px' />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white md:dark:hover:text-blue-700">MegaBlog</span>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white md:dark:hover:text-blue-600">MegaBlog</span>
           </Link>
           <div className='flex items-center space-x-3 rtl:space-x-reverse md:hidden'>
             <button
@@ -112,7 +49,7 @@ const Header = () => {
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
               </svg>
             </button>
-            <DarkModeToggle />
+            <DarkToogleBtn />
           </div>
           <div className={`${menuOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:items-center md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
@@ -131,20 +68,20 @@ const Header = () => {
                 ) : null)}
               {authStatus && (
                 <>
-                  <LogoutButton className='inline text-slate-900 bg-zinc-200 w-fit rounded-sm md:border-0 md:bg-blue-700 md:px-4 md:rounded-2xl md:py-1 md:text-white md:hover:bg-blue-800 '/>
+                  <LogoutButton className='inline w-fit md:hover:bg-blue-500 rounded-3xl mt-2 md:border-0 md:m-0' />
                 </>
               )}
               {!authStatus && (
                 <>
-                  <Button className='md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0'>
+                  <Button className='inline w-fit  md:hover:bg-blue-500 rounded-3xl mt-2 md:border-0 md:m-0'>
                     <Link to="/login">Login</Link>
                   </Button>
-                  <Button className='md:hover:bg-blue-500 rounded-3xl mb-2 md:border-0 md:mb-0'>
+                  <Button className='inline w-fit md:hover:bg-blue-500 rounded-3xl mt-2 md:border-0 md:m-0'>
                     <Link to="/signup">Sign Up</Link>
                   </Button>
                 </>)}
               <div className='hidden md:block'>
-                <DarkModeToggle />
+                <DarkToogleBtn />
               </div>
             </ul>
           </div>
