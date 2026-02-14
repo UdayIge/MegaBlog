@@ -36,6 +36,7 @@ export class AuthServices {
             if(error.code === 410 || error.type === 'general_unauthorized_scope') return null;
             console.log(`Unauthorized Access:${error}`);
         }
+        return null;
     }
     async logout(){
         try{
@@ -43,6 +44,7 @@ export class AuthServices {
         }
         catch( error ){
             console.log("Appwrite services :: logout ::",error);
+            return null;
         }
     }
 }
